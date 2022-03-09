@@ -54,14 +54,23 @@ namespace Project.Classes
             }
         }
 
-        public List<Costumers> GetUsers()
+        public List<Costumers> GetUsers(string search)
         {
 
             using(var db = GetConnection())
             {
-                var result = db.Query<Costumers>("SELECT * FROM Costumers").ToList();
+                if (search != null)
+                {
+                    var result = db.Query<Costumers>($"SELECT * FROM [Costumers] WHERE Surname = '{search}' OR Name = '{search}' OR SecondName = '{search}' OR Aboniment = '{search}'").ToList();
+                    return result;
+                }
+                else
+                {
+                   var result = db.Query<Costumers>("SELECT * FROM Costumers").ToList();
+                   return result;
+                }
 
-                return result;
+                
             }
         }
 
